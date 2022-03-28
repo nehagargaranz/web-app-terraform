@@ -1,5 +1,5 @@
 locals {
-    tags = {
+  tags = {
     # App                = "function app example from examples\default folder"
     # ApplicationOwner   = "PET"
     # CostCentre         = ""
@@ -15,5 +15,5 @@ locals {
     Purpose = "Training"
     Owner   = "neha.garg@enterpriseit.co.nz"
     Client  = "Servian"
-  }  
+  }
 }

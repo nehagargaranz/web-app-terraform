@@ -1,10 +1,9 @@
-resource "azurerm_app_service" "example" {
-  name                       = var.name
-  location                   = var.location
-  resource_group_name        = var.resource_group_name
-  app_service_plan_id        = var.app_service_plan_id
-  os_type                    = lower(var.os_type) == "linux" ? "linux" : null
-  https_only = true
+resource "azurerm_linux_web_app" "web_app" {
+  name                = var.name
+  location            = var.location
+  resource_group_name = var.resource_group_name
+  service_plan_id     = var.app_service_plan_id
+  https_only          = true
 
   dynamic "identity" {
     for_each = local.identity_type=="SystemAssigned" ? [1] : []
@@ -22,8 +21,20 @@ resource "azurerm_app_service" "example" {
   }
 
   site_config {
-    dotnet_framework_version = "v4.0"
-    scm_type                 = "LocalGit"
+    always_on     = var.always_on
+    http2_enabled = var.http2_enabled
+    ftps_state    = "FtpsOnly"
+
+    cors {
+      allowed_origins     = contains(keys(var.cors), "allowed_origins") ? var.cors.allowed_origins : []
+      support_credentials = contains(keys(var.cors), "support_credentials") ? var.cors.support_credentials : false
+    }
+
+    application_stack {
+      dotnet_version   = contains(keys(var.application_stack), "docker_version") ? var.cors.docker_version : ""
+      docker_image     = var.application_stack.docker_image
+      docker_image_tag = var.application_stack.docker_image_tag
+    }
   }
 
   app_settings = var.app_settings
@@ -32,12 +43,6 @@ resource "azurerm_app_service" "example" {
     ignore_changes = [
       app_settings,
     ]
-  }
-  
-  connection_string {
-    name  = "Database"
-    type  = "SQLServer"
-    value = "Server=some-server.mydomain.com;Integrated Security=SSPI"
   }
 
   tags = var.tags
