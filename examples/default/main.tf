@@ -5,8 +5,8 @@ module "linux_web_app" {
   resource_group_name        = azurerm_resource_group.example.name
   app_service_plan_id        = azurerm_service_plan.example.id
   system_assigned_managed_id = true
-  app_settings = {
-  }
+  app_settings               = {}
+  dotnet_version             = "3.1"
 
   tags = local.tags
 }
