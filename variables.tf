@@ -57,15 +57,27 @@ variable "cors" {
 }
 
 variable "always_on" {
-  description = "Should the Web App be loaded at all times? Defaults to false"
+  description = "Should the Web App be loaded at all times? Defaults to false. (Optional)"
   type        = bool
   default     = false
 }
 
 variable "http2_enabled" {
-  description = "Specifies whether or not the http2 protocol should be enabled. Defaults to false."
+  description = "Specifies whether or not the http2 protocol should be enabled. Defaults to false. (Optional)"
   type        = bool
   default     = false
+}
+
+variable "health_check_path" {
+  description = "The path to the Health Check. (Optional)"
+  type        = string
+  default     = null
+}
+
+variable "health_check_eviction_time_in_min" {
+  description = "The amount of time in minutes that a node can be unhealthy before being removed from the load balancer. Possible values are between 2 and 10. Only valid in conjunction with health_check_path. (Optional)"
+  type        = string
+  default     = null
 }
 
 variable "container_registry_use_managed_identity" {

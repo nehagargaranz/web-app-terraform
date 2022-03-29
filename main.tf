@@ -24,6 +24,9 @@ resource "azurerm_linux_web_app" "web_app" {
     always_on     = var.always_on
     http2_enabled = var.http2_enabled
     ftps_state    = "FtpsOnly"
+    
+    health_check_path                 = var.health_check_path
+    health_check_eviction_time_in_min = var.health_check_eviction_time_in_min
 
     container_registry_use_managed_identity = var.container_registry_use_managed_identity
 
