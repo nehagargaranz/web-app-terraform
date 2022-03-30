@@ -1,8 +1,8 @@
-resource "azurerm_linux_web_app" "web_app" {
+resource "azurerm_app_service" "web_app" {
   name                = var.name
   location            = var.location
   resource_group_name = var.resource_group_name
-  service_plan_id     = var.app_service_plan_id
+  app_service_plan_id = var.app_service_plan_id
   https_only          = true
 
   dynamic "identity" {
@@ -21,33 +21,17 @@ resource "azurerm_linux_web_app" "web_app" {
   }
 
   site_config {
-    always_on     = var.always_on
-    http2_enabled = var.http2_enabled
-    ftps_state    = "FtpsOnly"
-    
-    health_check_path                 = var.health_check_path
-    health_check_eviction_time_in_min = var.health_check_eviction_time_in_min
-
-    container_registry_use_managed_identity = var.container_registry_use_managed_identity
+    always_on                            = var.always_on
+    http2_enabled                        = var.http2_enabled
+    ftps_state                           = "FtpsOnly"
+    linux_fx_version                     = var.linux_fx_version
+    windows_fx_version                   = var.windows_fx_version
+    health_check_path                    = var.health_check_path
+    acr_use_managed_identity_credentials = var.acr_use_managed_identity_credentials
 
     cors {
       allowed_origins     = contains(keys(var.cors), "allowed_origins") ? var.cors.allowed_origins : []
       support_credentials = contains(keys(var.cors), "support_credentials") ? var.cors.support_credentials : false
-    }
-
-    application_stack {
-      docker_image     = var.docker_image
-      docker_image_tag = var.docker_image_tag
-      dotnet_version   = var.dotnet_version
-
-      java_server         = var.java_server
-      java_server_version = var.java_server_version
-      java_version        = var.java_version
-
-      php_version    = var.php_version
-      node_version   = var.node_version
-      python_version = var.python_version
-      ruby_version   = var.ruby_version
     }
   }
 

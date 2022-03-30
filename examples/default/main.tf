@@ -1,12 +1,12 @@
-module "linux_web_app" {
+module "web_app" {
   source                     = "../.."
   name                       = random_string.name.result
   location                   = random_shuffle.location.result[0]
   resource_group_name        = azurerm_resource_group.example.name
-  app_service_plan_id        = azurerm_service_plan.example.id
+  app_service_plan_id        = azurerm_app_service_plan.example.id
   system_assigned_managed_id = true
   app_settings               = {}
-  dotnet_version             = "3.1"
+  linux_fx_version           = "DOTNETCORE|3.1"
 
   tags = local.tags
 }
@@ -18,12 +18,17 @@ resource "azurerm_resource_group" "example" {
   tags = local.tags
 }
 
-resource "azurerm_service_plan" "example" {
-  name                = random_string.service_plan_id.result
+resource "azurerm_app_service_plan" "example" {
+  name                = random_string.app_service_plan_id.result
   location            = random_shuffle.location.result[0]
   resource_group_name = azurerm_resource_group.example.name
-  os_type             = "Linux"
-  sku_name            = "P1v2"
+  kind                = "Linux"
+  reserved            = true
+
+  sku {
+    tier = "Standard"
+    size = "S1"
+  }
 
   tags = local.tags
 }
@@ -45,7 +50,7 @@ resource "random_string" "resource_group_name" {
   special = false
 }
 
-resource "random_string" "service_plan_id" {
+resource "random_string" "app_service_plan_id" {
   length  = 24
   special = false
 }
