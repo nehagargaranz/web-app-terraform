@@ -11,6 +11,6 @@ locals {
     DataClassification = "confidential"
     AssetID            = "NOT_SET"
     AssetName          = "NOT_SET"
-    Repo               = "https://dev.azure.com/australiansuper/Cloud%20Capability/_git/terraform-azurerm-web-app"
+    Repo               = "https://dev.azure.com/australiansuper/Cloud%20Capability/_git/terraform-azurerm-linux-web-app"
   }
 }

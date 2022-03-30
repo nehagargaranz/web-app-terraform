@@ -19,12 +19,6 @@ variable "location" {
   default     = ""
 }
 
-variable "os_type" {
-  description = "OS Type (Optional)."
-  type        = string
-  default     = ""
-}
-
 variable "app_service_plan_id" {
   description = "App Service Plan ID."
   type        = string
@@ -44,7 +38,7 @@ variable "user_assigned_managed_ids" {
 
 variable "app_settings" {
   description = "A map of key-value pairs for App Settings and custom values. (Optional)"
-  type        = map
+  type        = map(any)
   default     = {}
 }
 
@@ -68,80 +62,26 @@ variable "http2_enabled" {
   default     = false
 }
 
-variable "health_check_path" {
-  description = "The path to the Health Check. (Optional)"
+variable "linux_fx_version" {
+  description = " Linux App Framework and version for the App Service.(Optional)"
   type        = string
   default     = null
 }
 
-variable "health_check_eviction_time_in_min" {
-  description = "The amount of time in minutes that a node can be unhealthy before being removed from the load balancer. Possible values are between 2 and 10. Only valid in conjunction with health_check_path. (Optional)"
+variable "windows_fx_version" {
+  description = "The Windows Docker container image. (Optional)"
   type        = string
   default     = null
 }
 
-variable "container_registry_use_managed_identity" {
+variable "acr_use_managed_identity_credentials" {
   description = "Should connections for Azure Container Registry use Managed Identity (Optional)"
   type        = bool
   default     = false
 }
 
-variable "docker_image" {
-  description = "The Docker image reference, including repository host as needed. (Optional)"
+variable "health_check_path" {
+  description = "The health check path to be pinged by App Service. (Optional)"
   type        = string
-  default     = null
-}
-
-variable "docker_image_tag" {
-  description = "The image Tag to use. (Optional)"
-  type        = string
-  default     = null
-}
-
-variable "dotnet_version" {
-  description = "The version of .Net to use. Possible values include 3.1, 5.0, and 6.0 (Optional)" 
-  type        = string
-  default     = null
-}
-
-variable "java_server" {
-  description = "The java server type. Possible values include JAVA, TOMCAT, and JBOSSEAP. (Optional)"
-  type        = string
-  default     = null
-}
-
-variable "java_server_version" {
-  description = "The Version of the java_server to use. (Optional)"
-  type        = string
-  default     = null
-}
-
-variable "java_version" {
-  description = "The Version of Java to use. (Optional)" 
-  type        = string
-  default     = null
-}
-
-variable "php_version" {
-  description = "The version of PHP to run. Possible values include 7.4, and 8.0 (Optional)" 
-  type        = string
-  default     = null
-}
-
-variable "node_version" {
-  description = "The version of Node to run. Possible values include 12-lts, 14-lts, and 16-lts. (Optional)"
-  type        = string
-  default     = null
-}
-
-variable "python_version" {
-  description = "The version of Python to run. Possible values include 3.7, 3.8, and 3.9. (Optional)"
-  type        = string
-  default     = null
-}
-
-variable "ruby_version" {
-  description = "The version of Ruby to run. Possible values include 2.6 and 2.7. (Optional)" 
-  type        = string
-  default     = null
+  default     = ""
 }
